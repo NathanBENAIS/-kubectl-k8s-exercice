@@ -3,12 +3,13 @@ kind: Pod
 metadata:
   name: planner
   labels:
-    purpose: plan
+    app: planner
 spec:
   containers:
-    - name: planner
-      image: nathanbenais/planner
-      imagePullPolicy: IfNotPresent
-      env:
-        - name: TASKS
-          value: '20'
+  - name: planner
+    image: nathanbenais/planner
+    ports:
+    - containerPort: 3000
+    env:
+    - name: TASKS
+      value: "4"

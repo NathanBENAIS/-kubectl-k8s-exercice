@@ -5,7 +5,7 @@ metadata:
   labels:
     app: worker
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: worker
@@ -16,15 +16,17 @@ spec:
     spec:
       containers:
         - name: worker
-          image: localhost:5000/worker
+          image: nathanbenais/worker
           ports:
             - containerPort: 8080
           env:
             - name: ADDRESS
-              value: 'planner:3000'
+              value: 'http://worker:8080'
             - name: PORT
               value: '8080'
             - name: MULT
               value: 'true'
             - name: ADD
               value: 'true'
+            - name: PLANNER
+              value: 'http://planner:3000'

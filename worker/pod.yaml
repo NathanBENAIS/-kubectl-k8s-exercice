@@ -3,17 +3,19 @@ kind: Pod
 metadata:
   name: worker
   labels:
-    purpose: work
-    app: work
+    app: worker
 spec:
   containers:
-    - name: worker
-      image: nathanbenais/worker
-      imagePullPolicy: IfNotPresent
-      env:
-        - name: PORT
-          value: '8080'
-        - name: MULT
-          value: 'true'
-        - name: ADD
-          value: 'true'
+  - name: worker
+    image: nathanbenais/worker
+    ports:
+    - containerPort: 8080
+    env:
+    - name: PORT
+      value: "8080"
+    - name: MULT
+      value: "true"
+    - name: ADD
+      value: "true"
+    - name: PLANNER
+      value: "http://planner:3000"
