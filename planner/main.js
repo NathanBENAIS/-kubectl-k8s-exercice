@@ -1,10 +1,9 @@
-// récupération des variables d'environnement
 require('dotenv').config();
 const fetch = require('node-fetch');
 const express = require('express');
 
 const port = process.env.PORT || 3000;
-const nbTasks = parseInt(process.env.TASKS) || 4;
+const nbTasks = parseInt(process.env.TASKS) || 50;
 
 const randInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 const taskType = () => (randInt(0, 2) ? 'mult' : 'add');
@@ -12,9 +11,7 @@ const args = () => ({ a: randInt(0, 40), b: randInt(0, 40) });
 
 const generateTasks = (i) => new Array(i).fill(1).map(() => ({ type: taskType(), args: args() }));
 
-let workers = [
-  // { url: 'http://localhost:8080', id: '' }
-];
+let workers = [];
 
 const app = express();
 app.use(express.json());
@@ -76,9 +73,9 @@ const main = async () => {
     await wait(100);
     if (workers.length === 0 || tasks.length === 0) continue;
 
-    // Dispatch tasks to specialized workers
+    // Dispatch tasks to workers
     const task = tasks[0];
-    const worker = workers.find((w) => w.url.includes(task.type)) || workers[0];
+    const worker = workers.shift(); // Use first available worker
     sendTask(worker, task);
   }
   console.log('end of tasks');

@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: worker
-  labels:
-    app: worker
+  name: worker-general
 spec:
-  replicas: 3
+  replicas: 10
   selector:
     matchLabels:
       app: worker
+      type: general
   template:
     metadata:
       labels:
         app: worker
+        type: general
     spec:
       containers:
         - name: worker
@@ -20,13 +20,5 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: ADDRESS
-              value: 'http://worker:8080'
-            - name: PORT
-              value: '8080'
-            - name: MULT
-              value: 'true'
-            - name: ADD
-              value: 'true'
             - name: PLANNER
-              value: 'http://planner:3000'
+              value: "http://planner:3000"
