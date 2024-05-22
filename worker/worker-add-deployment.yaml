@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-add
+  labels:
+    app: worker
+    type: add
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+      type: add
+  template:
+    metadata:
+      labels:
+        app: worker
+        type: add
+    spec:
+      containers:
+      - name: worker
+        image: nathanbenais/worker
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PLANNER
+          value: "http://planner:3000"
+        - name: ADDRESS
+          value: "http://worker-add:8080"
+        - name: MULT
+          value: "false"
+        - name: ADD
+          value: "true"
